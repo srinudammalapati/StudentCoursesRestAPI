@@ -37,7 +37,7 @@
                 command: apply
                 useConfigurationFile: true
                 configurationType: configuration
-                configuration: deployments/deployment
+                configuration: deployments/deployment.yaml
 
          
 
