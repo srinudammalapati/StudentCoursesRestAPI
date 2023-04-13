@@ -1,25 +1,36 @@
 ---
   pool:
-    name: testpool
+    name: devpool
     vmImage: "ubuntu-22.04"
    
   trigger:
     - master
-  
-  parameters:
-    - name: version
-      displayName: version
-      type: string
-      default: "v1.0"  
+  stages:
+    - stage: build
+      jobs:
+        - job: imagebuild
+          steps:
+            - task: Docker@2
+              inputs:
+                containerRegistry: acr_id
+                repository: scr
+                command: 'buildAndPush'
+                Dockerfile: 'Dockerfile'
+                tags: '$(Build.BuildId)'
+    - stage: deploy
+      jobs: 
+        - job: imagedeploy
+          steps:
+            - task: Kubernetes@1   
+              inputs:
+                connectionType: Kubernetes Service Connection  
+                kubernetesServiceEndpoint: k8s_id
+                command: apply
+                useConfigurationFile: true
+                configurationType: configuration
+                configuration: deployments/deployment.yaml
 
-    
-  steps:
-    - task: Docker@2
-      inputs:
-        command: build
-        buildContext: .
-        repository: 'StudentsCourses'
-        tags: '$(Build.BuildId)'   
+         
 
 
 

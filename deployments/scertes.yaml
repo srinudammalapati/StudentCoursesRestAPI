@@ -1,0 +1,8 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: srinu
+data: 
+
+type: kubernetes.io/dockerconfigjson
