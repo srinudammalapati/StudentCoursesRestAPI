@@ -11,7 +11,6 @@ pipeline{
         stage('docker image build') {
             steps{
                 sh """
-                    chmod 777 /var/run/docker.sock
                     docker image build -t scr:1.0 .
                     docker image tag scrdev:1.0 maheshstar/scr:1.0
                     docker image push maheshstar/scr:1.0
