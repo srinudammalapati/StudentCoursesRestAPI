@@ -4,7 +4,16 @@
     vmImage: "ubuntu-22.04"
    
   trigger:
-    - master
+    - srinu
+  variables:
+    JAVA_HOME_11_X64: '/usr/lib/jvm/java-11-openjdk-amd64'
+  resources:
+    repositories:
+      - repository: Dockerfile
+        endpoint: github.com_srinudammalapati
+        ref: 'refs/heads/srinu'
+        name: srinudammalapati/azuredevops
+        type: github    
   stages:
     - stage: build
       jobs:
@@ -28,7 +37,7 @@
                 command: apply
                 useConfigurationFile: true
                 configurationType: configuration
-                configuration: deployments/deployment.yaml
+                configuration: deployments/deployment
 
          
 
