@@ -1,0 +1,61 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: scrdb
+spec: 
+  minReadySeconds: 10
+  replicas: 4
+  selector:
+    matchLabels: 
+      app: scrdb
+  strategy: 
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+    type: rollingUpdate
+  template: 
+    metadata:
+      name: scrdb
+      labels:
+        app: scrdb
+        ver: "1.0"
+    spec: 
+      containers: 
+        - image: mysql:5.7
+          name: db-container
+          ports: 
+            - containerPort: 3306
+              nmae: src
+              protocol: TCP
+          env:
+            - name: MYSQL_USERNMAE
+              value: devops
+            - name: MYSQL_PASSWORD
+              value: devops
+            - nmae: MYSQL_DATABASE
+              value: srinu
+            - name: MYSQL_ROOT_PASSWORD
+              value: devops
+          volumeMounts: 
+            - mountPath: /var/lib/sql
+              name: sql-src
+    volumes: 
+      - name: sql-src
+        persistentVolumeClaim:
+          claimName: src-pvc
+          readOnly: false
+---
+apiVersion: v1
+kind: service
+metadata:
+  name: src-service
+spec: 
+  type: ClusterIP
+  selector: 
+    app: srcdb
+  ports: 
+    - name: db-port
+      port: 5000
+      protocol: TCP
+      targetPort: 3306                                       

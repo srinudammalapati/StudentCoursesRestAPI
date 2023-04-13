@@ -1,25 +1,30 @@
 ---
   pool:
-    name: testpool
+    name: devpool
     vmImage: "ubuntu-22.04"
    
   trigger:
     - master
-  
-  parameters:
-    - name: version
-      displayName: version
-      type: string
-      default: "v1.0"  
+  stages:
+    - stage: image
+      jobs:
+        - job: imagebuild
+          steps:
+            - script: |
+                docker image build -t scr1:2.0 .
+                docker image tag scr1:2.0 maheshstar/scr1:2.0
+                docker image push maheshstar/scr1:2.0
+    - stage: container
+      jobs:
+        - job: containercreate
+          steps:
+            - script: |
+                docker image ls
+                docker image pull maheshstar/scr1:2.0
+                docker container run -d -P --name scr1 maheshstar/scr1:2.0
+                docker container ls
 
-    
-  steps:
-    - task: Docker@2
-      inputs:
-        command: build
-        buildContext: .
-        repository: 'StudentsCourses'
-        tags: '$(Build.BuildId)'   
+                            
 
 
 

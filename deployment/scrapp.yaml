@@ -1,0 +1,48 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: scr-app
+spec: 
+  minReadySeconds: 10
+  replicas: 4
+  selector:
+    matchLabels: 
+      app: scrapp
+  strategy: 
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+    type: rollingUpdate
+  template: 
+    metadata:
+      name: scrapp
+      labels:
+        app: scrapp
+        ver: "1.0"
+    spec: 
+      containers: 
+        - image: maheshstar/students:3.0
+          name: app-container
+          ports: 
+            - containerPort: 8080
+              name: src
+              protocol: TCP
+          env:
+            - name: MYSQL_USER
+              value: scr-service
+---
+apiVersion: v1
+kind: service
+metadata:
+  name: src-lb
+spec: 
+  type: LoadBalancer
+  selector: 
+    app: srcapp
+  ports: 
+    - name: db-port
+      port: 2500
+      protocol: TCP
+      targetPort: 8080                                       
+
