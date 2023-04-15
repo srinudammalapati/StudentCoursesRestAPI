@@ -12,7 +12,7 @@ pipeline{
             steps{
                 sh """
                     docker image build -t scr:1.0 .
-                    docker image tag scrdev:1.0 qtdev.azurecr.io/scrdev:1.0
+                    docker image tag scr:1.0 qtdev.azurecr.io/scrdev:1.0
                     docker image push qtdev.azurecr.io/scrdev:1.0
                   """    
             }
