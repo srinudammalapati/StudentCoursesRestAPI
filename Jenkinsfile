@@ -12,8 +12,8 @@ pipeline{
             steps{
                 sh """
                     docker image build -t scr:1.0 .
-                    docker image tag scrdev:1.0 maheshstar/scr:1.0
-                    docker image push maheshstar/scr:1.0
+                    docker image tag scrdev:1.0 qtdev.azurecr.io/scr:1.0
+                    docker image push qtdev.azurecr.io/scr:1.0
                   """    
             }
         }
@@ -21,8 +21,8 @@ pipeline{
             steps{
                 sh """
                    docker image ls
-                   docker image pull maheshstar/scr:1.0
-                   docker container run -d -P --name scr2 maheshstar/scr:1.0
+                   docker image pull qtdev.azurecr.io/scr:1.0
+                   docker container run -d -P --name scr2 qtdev.azurecr.io/scr:1.0
                    docker contanier ls
                   """  
             }
