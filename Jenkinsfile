@@ -22,7 +22,7 @@ pipeline{
                 sh """
                    docker image ls
                    docker image pull qtdev.azurecr.io/scrdev:1.0
-                   docker container run -d -P --name scr2 qtdev.azurecr.io/scrdev:1.0
+                   docker container run -d -P --name scr3 qtdev.azurecr.io/scrdev:1.0
                    docker container ls -a
                   """  
             }
