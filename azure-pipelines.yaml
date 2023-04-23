@@ -1,14 +1,14 @@
 ---
-  pool:
-    name: devpool
-    vmImage: "ubuntu-22.04"
-   
   trigger:
     - master
   stages:
     - stage: build
       jobs:
         - job: imagebuild
+          pool:
+            name: devpool
+            demands:
+              - Agent.Name -equals myagent
           steps:
             - task: Docker@2
               inputs:
@@ -20,6 +20,10 @@
     - stage: deploy
       jobs: 
         - job: imagedeploy
+          pool: 
+            name: devpool
+            demands:
+              - Agent.Name -equals ram
           steps:
             - task: Kubernetes@1   
               inputs:
