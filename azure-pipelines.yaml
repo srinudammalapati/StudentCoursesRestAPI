@@ -23,7 +23,7 @@
           pool: 
             name: devpool
             demands:
-              - Agent.Name -equals ram
+              - Agent.Name -equals srinu
           steps:
             - task: Kubernetes@1   
               inputs:
