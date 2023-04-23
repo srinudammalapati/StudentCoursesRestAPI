@@ -9,6 +9,7 @@ pipeline{
             }
         }
         stage('docker image build') {
+            agent {label 'TERRAFORM'}
             steps{
                 sh """
                     docker image build -t scrdev:1.0 .
@@ -19,6 +20,7 @@ pipeline{
             }
         }
         stage('k8s deploy') {
+            agent {label 'AKS'}
             steps{
                 sh """
                    kubectl apply -f depolyment/sqlpvc.yaml
